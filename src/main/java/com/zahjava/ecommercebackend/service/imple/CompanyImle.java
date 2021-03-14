@@ -22,21 +22,15 @@ public class CompanyImle implements CompanyService {
 
     @Override
     public Response createCompany(CompanyDto companyDto) {
+
+        Integer alreadyExists = companyRepository.countByIsActiveTrue();
+        if (alreadyExists>0){
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_ACCEPTABLE,"Already One Company Exists");
+        }
         Company company = modelMapper.map(companyDto, Company.class);
-        Company haveAnyCompany = companyRepository.findByNameAndIsActiveTrue(company.getName());
-        if (haveAnyCompany != null) {//have previous company with current requested name
-            haveAnyCompany.setBranchList(company.getBranchList());
-            haveAnyCompany = companyRepository.save(haveAnyCompany);
-        }
-        if (haveAnyCompany != null) {
-            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "Company Updated Successfully", null);
-        }
         /**
          * otherwise if don't have any previous company name like this requested company name
          */
-        if (company.getBranchList() != null) {
-            company.setBranchList(company.getBranchList());
-        }
         company = companyRepository.save(company);
         if (company != null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "Company Creation Successfully", company.getName());

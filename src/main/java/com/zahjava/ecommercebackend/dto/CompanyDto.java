@@ -27,6 +27,6 @@ public class CompanyDto {
     private String licenseIssuingAuth;
     @NotBlank(message = "LicenseExpirationDate Mandatory")
     private String licenseExpirationDate;
-    private List<@Valid BranchDto> branchDtoList;
+    private List<BranchDto> branchList;
 
 }

@@ -20,6 +20,6 @@ public class Company extends BaseModel {
     private String tin;
     private String licenseIssuingAuth;
     private String licenseExpirationDate;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Branch> branchList;
 }

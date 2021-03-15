@@ -32,7 +32,7 @@ public class BranchController {
 
     @IsAdmin
     @ValidateData
-    @PostMapping(UrlConstraint.BranchManagement.UPDATE)
+    @PutMapping(UrlConstraint.BranchManagement.UPDATE)
     public Response updateBranch(@PathVariable Long id, @Valid @RequestBody BranchDto branchDto, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
         return branchService.updateBranch(id, branchDto);
     }

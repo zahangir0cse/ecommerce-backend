@@ -28,4 +28,13 @@ public final class UrlConstraint {
         public static final String GET = "/{id}";
         public static final String GET_ALL = "/all";
     }
+
+    public static class ProductManagement {
+        public static final String ROOT = API + "/product";
+        public static final String CREATE = "/create";
+        public static final String UPDATE = "update/{id}";
+        public static final String DELETE = "delete/{id}";
+        public static final String GET = "/{id}";
+        public static final String GET_ALL = "/all";
+    }
 }

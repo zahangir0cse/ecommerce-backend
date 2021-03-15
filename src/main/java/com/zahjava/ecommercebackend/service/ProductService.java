@@ -10,5 +10,5 @@ public interface ProductService {
 
     Response getProduct(Long productId);
 
-    Response deleteProduct(Long id);
+    Response deleteProduct(Long productId);
 }

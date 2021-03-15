@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service("ProductService")
 public class ProductServiceImpl implements ProductService {
-    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 

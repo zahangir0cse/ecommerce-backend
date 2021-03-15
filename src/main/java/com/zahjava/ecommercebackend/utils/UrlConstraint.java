@@ -16,5 +16,8 @@ public final class UrlConstraint {
     public static class CompanyManagement {
         public static final String ROOT = API + "/company";
         public static final String CREATE = "/create";
+        public static final String UPDATE = "/{id}";
+        public static final String GET = "/{id}";
+        public static final String GET_ALL = "/all";
     }
 }

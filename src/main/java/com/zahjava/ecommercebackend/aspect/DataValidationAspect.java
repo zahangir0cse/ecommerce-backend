@@ -2,11 +2,11 @@ package com.zahjava.ecommercebackend.aspect;
 
 import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -14,7 +14,7 @@ import org.springframework.validation.BindingResult;
 @Aspect
 @Configuration
 public class DataValidationAspect {
-    private Logger logger = LoggerFactory.getLogger(DataValidationAspect.class.getName());
+    private Logger logger = LogManager.getLogger(DataValidationAspect.class.getName());
 
     @Around("@annotation(com.zahjava.ecommercebackend.annotation.ValidateData) && args(..)")
     public Response validateData(ProceedingJoinPoint joinPoint) {
@@ -26,7 +26,7 @@ public class DataValidationAspect {
                 break;
             }
         }
-        if (result.hasErrors()) {
+        if (result != null && result.hasErrors()) {
             return ResponseBuilder.getFailureResponse(result, "Bean Binding error");
         }
         try {

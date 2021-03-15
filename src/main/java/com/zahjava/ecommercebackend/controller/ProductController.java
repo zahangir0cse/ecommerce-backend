@@ -50,5 +50,4 @@ public class ProductController {
     public Response deleteProduct(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         return productService.deleteProduct(id);
     }
-
 }

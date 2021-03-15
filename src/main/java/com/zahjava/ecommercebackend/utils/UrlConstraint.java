@@ -20,4 +20,12 @@ public final class UrlConstraint {
         public static final String GET = "/{id}";
         public static final String GET_ALL = "/all";
     }
+
+    public static class BranchManagement {
+        public static final String ROOT = API + "/company/branch";
+        public static final String CREATE = "/create";
+        public static final String UPDATE = "/{id}";
+        public static final String GET = "/{id}";
+        public static final String GET_ALL = "/all";
+    }
 }

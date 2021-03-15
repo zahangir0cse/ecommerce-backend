@@ -14,5 +14,6 @@ public class BranchDto extends BaseModel {
     private String address;
     @NotBlank(message = "Branch Head Mandatory")
     private String branchHeadName;
+    @NotBlank
     private String branchMobileNo;
 }

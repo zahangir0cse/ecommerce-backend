@@ -43,11 +43,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Response createCompany(CompanyDto companyDto) {
-
         Integer alreadyExists = companyRepository.countByIsActiveTrue();
-        if (alreadyExists>0){
-            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_ACCEPTABLE,"Already One Company Exists");
+        if (alreadyExists > 0) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_ACCEPTABLE, "Already One Company Exists");
         }
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         Company company = modelMapper.map(companyDto, Company.class);
         /**
          * otherwise if don't have any previous company name like this requested company name

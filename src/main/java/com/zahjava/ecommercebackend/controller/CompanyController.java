@@ -47,7 +47,7 @@ public class CompanyController {
     public Response getAll(HttpServletResponse httpServletResponse, Pageable pageable,
                            @RequestParam(value = "export", defaultValue = "false") boolean isExport,
                            @RequestParam(value = "search", defaultValue = "") String search,
-                           @RequestParam(value = "status", defaultValue = "") String status ) {
+                           @RequestParam(value = "status", defaultValue = "") String status) {
 
         Response response = companyService.getAll(pageable, isExport, search, status);
         httpServletResponse.setStatus(response.getStatusCode());

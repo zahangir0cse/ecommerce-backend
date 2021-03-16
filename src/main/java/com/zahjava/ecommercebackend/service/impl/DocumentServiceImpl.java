@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -120,6 +121,15 @@ public class DocumentServiceImpl implements DocumentService {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "No documents found");
         }
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Documents retrieved successfully", this.getResponseDtoList(documentList));
+    }
+
+    @Override
+    public List<DocumentDto> getAllDtoByDomain(Long entityId, String entityName) {
+        List<Document> documentList = documentRepository.findAllByEntityIdAndEntityNameAndIsActiveTrue(entityId, entityName);
+        if (documentList == null || documentList.size() == 0) {
+            return this.getResponseDtoList(documentList);
+        }
+        return new ArrayList<>();
     }
 
     @Override

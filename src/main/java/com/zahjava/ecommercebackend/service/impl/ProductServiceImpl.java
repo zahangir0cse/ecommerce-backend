@@ -1,8 +1,10 @@
 package com.zahjava.ecommercebackend.service.impl;
 
+import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.dto.ProductDto;
 import com.zahjava.ecommercebackend.model.Product;
 import com.zahjava.ecommercebackend.repository.ProductRepository;
+import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.service.ProductService;
 import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
@@ -14,16 +16,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service("ProductService")
 public class ProductServiceImpl implements ProductService {
     private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final ProductRepository productRepository;
+    private final DocumentService documentService;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, DocumentService documentService, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.documentService = documentService;
         this.modelMapper = modelMapper;
     }
 
@@ -71,6 +76,8 @@ public class ProductServiceImpl implements ProductService {
         try {
             ProductDto productDto = modelMapper.map(productOptional, ProductDto.class);
             if (productDto != null) {
+                List<DocumentDto> documentList = documentService.getAllDtoByDomain(productId, Product.class.getSimpleName());
+                productDto.setDocumentList(documentList);
                 return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Product retrieved Successfully", productDto);
             }
             return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error Occurred");

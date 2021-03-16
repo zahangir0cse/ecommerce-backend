@@ -3,6 +3,7 @@ package com.zahjava.ecommercebackend.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 public class ProductDto {
@@ -21,4 +22,5 @@ public class ProductDto {
     @NotBlank(message = "Product Description Mandatory")
     private String description;
     private String discountNote;
+    private List<DocumentDto> documentList;
 }

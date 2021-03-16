@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -197,7 +198,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private void addPredicates(CriteriaBuilder criteriaBuilder, CriteriaQuery<Document> criteriaQuery, Root<Document> rootEntity, String search) {
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(criteriaBuilder.isTrue(rootEntity.<Boolean>get("active")));
+        predicates.add(criteriaBuilder.isTrue(rootEntity.<Boolean>get("isActive")));
 
         if (search != null && search.trim().length() > 0) {
             Predicate pLike = criteriaBuilder.or(

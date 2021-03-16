@@ -146,7 +146,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private void addPredicates(CriteriaBuilder criteriaBuilder, CriteriaQuery<Company> criteriaQuery, Root<Company> rootEntity, String search) {
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(criteriaBuilder.isTrue(rootEntity.<Boolean>get("active")));
+        predicates.add(criteriaBuilder.isTrue(rootEntity.<Boolean>get("isActive")));
 
         if (search != null && search.trim().length() > 0) {
             Predicate pLike = criteriaBuilder.or(

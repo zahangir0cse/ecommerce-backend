@@ -1,6 +1,6 @@
 package com.zahjava.ecommercebackend.filter;
 
-import com.zahjava.ecommercebackend.utils.DataUtils;
+import com.zahjava.ecommercebackend.utils.DateUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,7 +24,7 @@ public class JwtTokenProvider {
                 .claim("clientIp", request.getRemoteAddr())
 //                .claim("role", userPrinciple.getAuthorities().stream().map(grantedAuthority -> ))
                 .setSubject(String.valueOf(userPrinciple.getId()))
-                .setIssuedAt(now).setExpiration(DataUtils.getExpirationTime(expireHour))
+                .setIssuedAt(now).setExpiration(DateUtils.getExpirationTime(expireHour))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }

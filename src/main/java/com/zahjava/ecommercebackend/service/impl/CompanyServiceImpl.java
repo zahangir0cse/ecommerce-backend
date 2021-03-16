@@ -1,4 +1,4 @@
-package com.zahjava.ecommercebackend.service.imple;
+package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.CompanyDto;
 import com.zahjava.ecommercebackend.model.Company;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service("CompanyService")
+@Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
     private final ModelMapper modelMapper;
     private final CompanyRepository companyRepository;
@@ -121,12 +121,12 @@ public class CompanyServiceImpl implements CompanyService {
             typedQuery.setMaxResults(pageable.getPageSize());
         }
         long rows = typedQuery.getResultList().size();
-        Page<Company> students = new PageImpl<>(typedQuery.getResultList(), pageable, rows);
+        Page<Company> companies = new PageImpl<>(typedQuery.getResultList(), pageable, rows);
 
-        if (!students.hasContent()) {
+        if (!companies.hasContent()) {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, String.format("%s not found", root));
         }
-        List<CompanyDto> responseDtos = this.getResponseDtoList(students);
+        List<CompanyDto> responseDtos = this.getResponseDtoList(companies);
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, String.format("%s list", root), responseDtos, totalRows);
     }
 

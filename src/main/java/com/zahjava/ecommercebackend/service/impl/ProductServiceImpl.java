@@ -1,4 +1,4 @@
-package com.zahjava.ecommercebackend.service.imple;
+package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.ProductDto;
 import com.zahjava.ecommercebackend.model.Product;

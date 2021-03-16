@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public final class DataUtils {
-    public DataUtils() {
+public final class DateUtils {
+    public DateUtils() {
     }
 
     public static Integer getYearFromDate(Date date) {
@@ -17,8 +17,12 @@ public final class DataUtils {
     }
 
     public static String getStringDate(Date date, String format) {
-        DateFormat dateFormat = new SimpleDateFormat(format);
-        return dateFormat.format(date);
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(format);
+            return dateFormat.format(date);
+        }catch (Exception e){
+            return null;
+        }
     }
 
 

@@ -22,7 +22,7 @@ public final class UrlConstraint {
     }
 
     public static class BranchManagement {
-        public static final String ROOT = API + "/company/branch";
+        public static final String ROOT = API + "/branch";
         public static final String CREATE = "/create";
         public static final String UPDATE = "/{id}";
         public static final String GET = "/{id}";
@@ -32,9 +32,19 @@ public final class UrlConstraint {
     public static class ProductManagement {
         public static final String ROOT = API + "/product";
         public static final String CREATE = "/create";
-        public static final String UPDATE = "update/{id}";
-        public static final String DELETE = "delete/{id}";
+        public static final String UPDATE = "/{id}";
+        public static final String DELETE = "/{id}";
         public static final String GET = "/{id}";
         public static final String GET_ALL = "/all";
+    }
+
+    public static class DocumentManagement {
+        public static final String ROOT = API + "/document";
+        public static final String CREATE = "/create";
+        public static final String UPDATE = "/{id}";
+        public static final String DELETE = "/{id}";
+        public static final String GET = "/{id}";
+        public static final String GET_ALL = "/all";
+        public static final String GET_ALL_BY_ENTITY = "/allByEntity";
     }
 }

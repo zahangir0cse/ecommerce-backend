@@ -124,6 +124,15 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public List<DocumentDto> getAllDtoByDomain(Long entityId, String entityName) {
+        List<Document> documentList = documentRepository.findAllByEntityIdAndEntityNameAndIsActiveTrue(entityId, entityName);
+        if (documentList == null || documentList.size() == 0) {
+            return this.getResponseDtoList(documentList);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public Response delete(Long id) {
         Optional<Document> optionalDocument = documentRepository.findByIdAndIsActiveTrue(id);
 

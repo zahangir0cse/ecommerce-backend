@@ -1,9 +1,6 @@
 package com.zahjava.ecommercebackend.service.impl;
 
-import com.zahjava.ecommercebackend.dto.CompanyDto;
 import com.zahjava.ecommercebackend.dto.DocumentDto;
-import com.zahjava.ecommercebackend.model.BaseModel;
-import com.zahjava.ecommercebackend.model.Company;
 import com.zahjava.ecommercebackend.model.Document;
 import com.zahjava.ecommercebackend.repository.DocumentRepository;
 import com.zahjava.ecommercebackend.service.DocumentService;
@@ -12,7 +9,6 @@ import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -29,9 +24,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.validation.Valid;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +32,7 @@ import java.util.*;
 
 @Service("documentService")
 public class DocumentServiceImpl implements DocumentService {
-        private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final DocumentRepository documentRepository;
     private final String root = "Document";
     @Value("${server.file.location}")
@@ -62,7 +55,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
             for (MultipartFile file : files) {
                 String fileLocation = getUniqueLocation(fileRoot + "/" + DateUtils.getStringDate(new Date(), "dd_MM_yyyy") + "/" + UUID.randomUUID().toString() + "/" + file.getOriginalFilename(), file);
-                if(writeFile(file, fileLocation)){
+                if (writeFile(file, fileLocation)) {
                     Document document = new Document();
                     document.setLocation(fileLocation);
                     document.setEntityId(entityId);
@@ -122,12 +115,33 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Response getAllByDomain(Long entityId, String entityName) {
-        return null;
+        List<Document> documentList = documentRepository.findAllByEntityIdAndEntityNameAndIsActiveTrue(entityId, entityName);
+        if (documentList == null || documentList.size() == 0) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "No documents found");
+        }
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Documents retrieved successfully", this.getResponseDtoList(documentList));
     }
 
     @Override
     public Response delete(Long id) {
-        return null;
+        Optional<Document> optionalDocument = documentRepository.findByIdAndIsActiveTrue(id);
+
+        if (!optionalDocument.isPresent()) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, String.format("Requested %s could not be found", root));
+        }
+        try {
+            Document document = optionalDocument.get();
+            document.setIsActive(false);
+            document = documentRepository.save(document);
+            documentRepository.save(document);
+            if (document != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, null, String.format("%s deleted successfully", root));
+            }
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error occurred");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
     @Override
@@ -159,6 +173,15 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private List<DocumentDto> getResponseDtoList(Page<Document> documents) {
+        List<DocumentDto> responseDtos = new ArrayList<>();
+        documents.forEach(document -> {
+            DocumentDto dto = modelMapper.map(document, DocumentDto.class);
+            responseDtos.add(dto);
+        });
+        return responseDtos;
+    }
+
+    private List<DocumentDto> getResponseDtoList(List<Document> documents) {
         List<DocumentDto> responseDtos = new ArrayList<>();
         documents.forEach(document -> {
             DocumentDto dto = modelMapper.map(document, DocumentDto.class);

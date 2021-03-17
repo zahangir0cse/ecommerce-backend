@@ -1,6 +1,6 @@
 package com.zahjava.ecommercebackend.repository;
 
-import com.zahjava.ecommercebackend.model.Company;
+import com.zahjava.ecommercebackend.model.companyModel.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

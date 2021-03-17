@@ -1,8 +1,8 @@
 package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.UserDto;
-import com.zahjava.ecommercebackend.model.Role;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.Role;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.repository.RoleRepository;
 import com.zahjava.ecommercebackend.repository.UserRepository;
 import com.zahjava.ecommercebackend.service.UserService;

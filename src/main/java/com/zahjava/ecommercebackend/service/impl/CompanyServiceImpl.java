@@ -1,7 +1,7 @@
 package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.CompanyDto;
-import com.zahjava.ecommercebackend.model.Company;
+import com.zahjava.ecommercebackend.model.companyModel.Company;
 import com.zahjava.ecommercebackend.repository.CompanyRepository;
 import com.zahjava.ecommercebackend.service.CompanyService;
 import com.zahjava.ecommercebackend.view.Response;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -49,6 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         Company company = modelMapper.map(companyDto, Company.class);
+        company.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         /**
          * otherwise if don't have any previous company name like this requested company name
          */
@@ -70,6 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
             Company company = companyOptional.get();
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
             modelMapper.map(companyDto, company);
+            company.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             company = companyRepository.save(company);
             if (company != null) {
                 //Log Writing Code will goes here

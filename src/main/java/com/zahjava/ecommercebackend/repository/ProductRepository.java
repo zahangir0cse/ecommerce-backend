@@ -9,4 +9,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByNameAndIsActiveTrue(String productName);
 
     Optional<Product> findByIdAndIsActiveTrue(Long productId);
+
+    int countAllByIsActiveTrue();
 }

@@ -1,5 +1,6 @@
 package com.zahjava.ecommercebackend.service.impl;
 
+import com.zahjava.ecommercebackend.dto.CreateProductDto;
 import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.dto.ProductDto;
 import com.zahjava.ecommercebackend.model.Product;
@@ -41,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = modelMapper.map(productDto, Product.class);
         product = productRepository.save(product);
         if (product != null) {
-            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "Product Creation Successfully", product.getName());
+            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "Product Creation Successfully", new CreateProductDto(product.getId(),Product.class.getSimpleName()));
         }
         return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }

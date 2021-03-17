@@ -1,7 +1,7 @@
 package com.zahjava.ecommercebackend.test;
 
-import com.zahjava.ecommercebackend.model.Role;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.Role;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.repository.RoleRepository;
 import com.zahjava.ecommercebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;

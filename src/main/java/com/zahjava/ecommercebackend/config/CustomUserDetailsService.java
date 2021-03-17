@@ -1,7 +1,7 @@
 package com.zahjava.ecommercebackend.config;
 
 import com.zahjava.ecommercebackend.filter.UserPrincipal;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

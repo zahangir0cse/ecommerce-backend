@@ -1,7 +1,7 @@
 package com.zahjava.ecommercebackend.filter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,7 +1,7 @@
 package com.zahjava.ecommercebackend.repository;
 
 
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

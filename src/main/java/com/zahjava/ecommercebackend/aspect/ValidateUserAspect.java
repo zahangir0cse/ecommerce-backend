@@ -1,6 +1,6 @@
 package com.zahjava.ecommercebackend.aspect;
 
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

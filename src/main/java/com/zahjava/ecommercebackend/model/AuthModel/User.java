@@ -1,5 +1,6 @@
-package com.zahjava.ecommercebackend.model;
+package com.zahjava.ecommercebackend.model.AuthModel;
 
+import com.zahjava.ecommercebackend.model.BaseModel;
 import lombok.Data;
 import lombok.ToString;
 

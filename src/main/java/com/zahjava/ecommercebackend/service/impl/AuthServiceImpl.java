@@ -3,7 +3,7 @@ package com.zahjava.ecommercebackend.service.impl;
 import com.zahjava.ecommercebackend.dto.LoginDto;
 import com.zahjava.ecommercebackend.dto.LoginResponseDto;
 import com.zahjava.ecommercebackend.filter.JwtTokenProvider;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.repository.UserRepository;
 import com.zahjava.ecommercebackend.service.AuthService;
 import com.zahjava.ecommercebackend.view.Response;

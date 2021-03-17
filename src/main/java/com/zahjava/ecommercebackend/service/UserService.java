@@ -2,7 +2,7 @@ package com.zahjava.ecommercebackend.service;
 
 
 import com.zahjava.ecommercebackend.dto.UserDto;
-import com.zahjava.ecommercebackend.model.User;
+import com.zahjava.ecommercebackend.model.AuthModel.User;
 import com.zahjava.ecommercebackend.view.Response;
 
 public interface UserService {

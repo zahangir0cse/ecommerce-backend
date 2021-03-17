@@ -2,24 +2,28 @@ package com.zahjava.ecommercebackend.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 public class ProductDto {
     private Long id;
-    @NotBlank(message = "Product Name Mandatory")
+    @NotEmpty(message = "Product Name Mandatory")
     private String name;
-    @NotBlank(message = "Product Quantity Mandatory")
+    @NotEmpty(message = "Product Quantity Mandatory")
+    @NotNull(message = "Quantity is Mandatory")
+    @Min(1)
     private String quantity;
-    @NotBlank(message = "Product unitPriceBuy Mandatory")
+    @NotEmpty(message = "Product unitPriceBuy Mandatory")
     private String unitPriceBuy;
-    @NotBlank(message = "Product unitPriceSale Mandatory")
+    @NotEmpty(message = "Product unitPriceSale Mandatory")
     private String unitPriceSale;
-    @NotBlank(message = "ProductRoute Mandatory")
+    @NotEmpty(message = "ProductRoute Mandatory")
     private String productRoute;
     private String discount;
-    @NotBlank(message = "Product Description Mandatory")
+    @NotEmpty(message = "Product Description Mandatory")
     private String description;
     private String discountNote;
     private List<DocumentDto> documentList;

@@ -1,6 +1,6 @@
 package com.zahjava.ecommercebackend.repository;
 
-import com.zahjava.ecommercebackend.model.Branch;
+import com.zahjava.ecommercebackend.model.companyModel.Branch;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

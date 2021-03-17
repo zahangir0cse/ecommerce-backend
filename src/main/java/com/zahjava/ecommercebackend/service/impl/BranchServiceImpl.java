@@ -1,8 +1,8 @@
 package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.BranchDto;
-import com.zahjava.ecommercebackend.model.Branch;
-import com.zahjava.ecommercebackend.model.Company;
+import com.zahjava.ecommercebackend.model.companyModel.Branch;
+import com.zahjava.ecommercebackend.model.companyModel.Company;
 import com.zahjava.ecommercebackend.repository.BranchRepository;
 import com.zahjava.ecommercebackend.repository.CompanyRepository;
 import com.zahjava.ecommercebackend.service.BranchService;

@@ -1,6 +1,7 @@
 package com.zahjava.ecommercebackend.controller;
 
 import com.zahjava.ecommercebackend.annotation.ApiController;
+import com.zahjava.ecommercebackend.annotation.IsAdmin;
 import com.zahjava.ecommercebackend.annotation.IsAdminOrEmployee;
 import com.zahjava.ecommercebackend.annotation.ValidateData;
 import com.zahjava.ecommercebackend.dto.ProductDto;
@@ -23,28 +24,28 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @IsAdminOrEmployee
+    @IsAdmin
     @ValidateData
     @PostMapping(UrlConstraint.ProductManagement.CREATE)
     public Response createProduct(@Valid @RequestBody ProductDto productDto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return productService.createProduct(productDto);
     }
 
-    @IsAdminOrEmployee
+    @IsAdmin
     @ValidateData
     @PutMapping(UrlConstraint.ProductManagement.UPDATE)
     public Response updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return productService.updateProduct(id, productDto);
     }
 
-    @IsAdminOrEmployee
+    @IsAdmin
     @ValidateData
     @GetMapping(UrlConstraint.ProductManagement.GET)
     public Response getProduct(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         return productService.getProduct(id);
     }
 
-    @IsAdminOrEmployee
+    @IsAdmin
     @ValidateData
     @DeleteMapping(UrlConstraint.ProductManagement.DELETE)
     public Response deleteProduct(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {

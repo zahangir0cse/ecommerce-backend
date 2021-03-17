@@ -1,5 +1,6 @@
-package com.zahjava.ecommercebackend.model;
+package com.zahjava.ecommercebackend.model.companyModel;
 
+import com.zahjava.ecommercebackend.model.BaseModel;
 import lombok.Data;
 
 import javax.persistence.Entity;

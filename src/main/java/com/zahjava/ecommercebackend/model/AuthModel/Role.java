@@ -1,6 +1,7 @@
-package com.zahjava.ecommercebackend.model;
+package com.zahjava.ecommercebackend.model.AuthModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zahjava.ecommercebackend.model.BaseModel;
 import lombok.Data;
 
 import javax.persistence.Entity;

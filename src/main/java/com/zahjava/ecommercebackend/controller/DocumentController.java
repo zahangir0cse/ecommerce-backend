@@ -1,6 +1,7 @@
 package com.zahjava.ecommercebackend.controller;
 
 import com.zahjava.ecommercebackend.annotation.ApiController;
+import com.zahjava.ecommercebackend.annotation.IsAdmin;
 import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.utils.UrlConstraint;
 import com.zahjava.ecommercebackend.view.Response;
@@ -20,6 +21,7 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
+    @IsAdmin
     @PostMapping(UrlConstraint.DocumentManagement.CREATE)
     public Response create(@RequestParam(name = "files") MultipartFile [] files, @RequestParam(name = "entityName") String entityName, @RequestParam(name = "entityId") Long entityId, HttpServletRequest request, HttpServletResponse response) {
         return documentService.create(files, entityName, entityId);

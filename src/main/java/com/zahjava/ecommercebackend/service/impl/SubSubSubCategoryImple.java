@@ -25,21 +25,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Service("SubSubSubCategoryService")
+@Service("subSubSubCategoryService")
 public class SubSubSubCategoryImple implements SubSubSubCategoryService {
     private final Logger logger = LoggerFactory.getLogger(SubSubSubCategoryImple.class);
     private final ModelMapper modelMapper;
     private final SubSubSubCategoryRepository subSubSubCategoryRepository;
     private final ProductRepository productRepository;
     private final DocumentService documentService;
-    private final SubSubSubCategoryImple subSubSubCategoryImple;
 
-    public SubSubSubCategoryImple(ModelMapper modelMapper, SubSubSubCategoryRepository subSubSubCategoryRepository, ProductRepository productRepository, DocumentService documentService, SubSubSubCategoryImple subSubSubCategoryImple) {
+    public SubSubSubCategoryImple(ModelMapper modelMapper, SubSubSubCategoryRepository subSubSubCategoryRepository, ProductRepository productRepository, DocumentService documentService) {
         this.modelMapper = modelMapper;
         this.subSubSubCategoryRepository = subSubSubCategoryRepository;
         this.productRepository = productRepository;
         this.documentService = documentService;
-        this.subSubSubCategoryImple = subSubSubCategoryImple;
     }
 
     @Override
@@ -135,14 +133,14 @@ public class SubSubSubCategoryImple implements SubSubSubCategoryService {
                 /**
                  * For set each product document list if have any product with this subSUbSubCategory
                  */
-                subSubSubCategoryDto.setProductList(subSubSubCategoryImple.getProductList(subSubSubCategory.getProductList()));
+                subSubSubCategoryDto.setProductList(getProductList(subSubSubCategory.getProductList()));
             }
             subSubSubCategoryDtos.add(subSubSubCategoryDto);
         });
         return subSubSubCategoryDtos;
     }
 
-
+    @Override
     public List<ProductDto> getProductList(List<Product> productList) {
         List<ProductDto> productDtoList = new ArrayList<>();
         productList.forEach(product -> {

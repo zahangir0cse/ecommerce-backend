@@ -8,6 +8,7 @@ import com.zahjava.ecommercebackend.model.categoryModel.Category;
 import com.zahjava.ecommercebackend.repository.CategoryRepository;
 import com.zahjava.ecommercebackend.repository.ProductRepository;
 import com.zahjava.ecommercebackend.service.CategoryService;
+import com.zahjava.ecommercebackend.service.SubSubSubCategoryService;
 import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
 import org.modelmapper.Conditions;
@@ -19,19 +20,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Service("CategoryService")
+@Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
     private final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
-    private final SubSubSubCategoryImple subSubSubCategoryImple;
+    private final SubSubSubCategoryService subSubSubCategoryImple;
     private final ProductRepository productRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, SubSubSubCategoryImple subSubSubCategoryImple, ProductRepository productRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, SubSubSubCategoryService subSubSubCategoryImple, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
         this.subSubSubCategoryImple = subSubSubCategoryImple;

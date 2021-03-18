@@ -82,7 +82,7 @@ public class DocumentServiceImpl implements DocumentService {
     private Boolean writeFile(MultipartFile multipartFile, String location) {
         try {
             byte[] bytes = multipartFile.getBytes();
-            File file = new File(location);
+            File file = new File(location.substring(0, location.lastIndexOf("/")));
             if (!file.exists()) {
                 file.mkdirs();
             }

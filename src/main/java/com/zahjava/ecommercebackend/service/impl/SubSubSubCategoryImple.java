@@ -52,12 +52,12 @@ public class SubSubSubCategoryImple implements SubSubSubCategoryService {
             subSubSubCategory.setCreatedAt(new Date());
             subSubSubCategory = subSubSubCategoryRepository.save(subSubSubCategory);
             if (subSubSubCategory != null) {
-                if (subSubSubCategory.getProductList().isEmpty()) {
+                if (subSubSubCategory.getProductList() == null) {
                     return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "SubSubSubCategory Creation Successfully", subSubSubCategory.getName());
                 }
                 List<CreateProductDto> createProductDtoList = new ArrayList<>();
                 subSubSubCategory.getProductList().forEach(product -> {
-                    CreateProductDto createProductDto = new CreateProductDto(product.getId(), Product.class.getSimpleName());
+                    CreateProductDto createProductDto = new CreateProductDto(product.getId(), SubSubSubCategory.class.getSimpleName());
                     createProductDtoList.add(createProductDto);
                 });
                 return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "SubSubSubCategory Creation Successfully", createProductDtoList);
@@ -116,12 +116,20 @@ public class SubSubSubCategoryImple implements SubSubSubCategoryService {
     @Override
     public Response getAllCategories() {
         Optional<List<SubSubSubCategory>> optionalSubSubSubCategoryList = subSubSubCategoryRepository.findAllByIsActiveTrue();
-        List<SubSubSubCategoryDto> subSubSubCategoryDtos = this.getAllSubSubSubCategories(optionalSubSubSubCategoryList.get());
-        int numberOfRow = subSubSubCategoryRepository.countAllByIsActiveTrue();
-        if (!subSubSubCategoryDtos.isEmpty()) {
-            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "SubSubSubCategory Retrieved Successfully", subSubSubCategoryDtos, numberOfRow);
+        if (!optionalSubSubSubCategoryList.isPresent()) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any subSubSubCategory");
         }
-        return ResponseBuilder.getSuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", null);
+        try {
+            List<SubSubSubCategoryDto> subSubSubCategoryDtos = this.getAllSubSubSubCategories(optionalSubSubSubCategoryList.get());
+            int numberOfRow = subSubSubCategoryRepository.countAllByIsActiveTrue();
+            if (subSubSubCategoryDtos.isEmpty()) {
+                return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't found any subSubSubCategory");
+            }
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "SubSubSubCategory Retrieved Successfully", subSubSubCategoryDtos, numberOfRow);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.getSuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", null);
+        }
     }
 
     private List<SubSubSubCategoryDto> getAllSubSubSubCategories(List<SubSubSubCategory> subSubSubCategories) {
@@ -146,7 +154,7 @@ public class SubSubSubCategoryImple implements SubSubSubCategoryService {
         productList.forEach(product -> {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
-            List<DocumentDto> documentList = documentService.getAllDtoByDomain(productDto.getId(), Product.class.getSimpleName());//for get image for a product by needed param
+            List<DocumentDto> documentList = documentService.getAllDtoByDomain(productDto.getId(), SubSubSubCategory.class.getSimpleName());//for get image for a product by needed param
             productDto.setDocumentList(documentList);
             productDtoList.add(productDto);
         });

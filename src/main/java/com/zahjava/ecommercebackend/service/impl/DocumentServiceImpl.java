@@ -2,7 +2,9 @@ package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.model.Document;
+import com.zahjava.ecommercebackend.model.Product;
 import com.zahjava.ecommercebackend.repository.DocumentRepository;
+import com.zahjava.ecommercebackend.repository.ProductRepository;
 import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.utils.DateUtils;
 import com.zahjava.ecommercebackend.view.Response;
@@ -35,6 +37,7 @@ import java.util.*;
 public class DocumentServiceImpl implements DocumentService {
     private final ModelMapper modelMapper;
     private final DocumentRepository documentRepository;
+    private final ProductRepository productRepository;
     private final String root = "Document";
     @Value("${server.file.location}")
     private String fileRoot;
@@ -43,13 +46,18 @@ public class DocumentServiceImpl implements DocumentService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public DocumentServiceImpl(ModelMapper modelMapper, DocumentRepository documentRepository) {
+    public DocumentServiceImpl(ModelMapper modelMapper, DocumentRepository documentRepository, ProductRepository productRepository) {
         this.modelMapper = modelMapper;
         this.documentRepository = documentRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
     public Response create(MultipartFile[] files, String entityName, Long entityId) {
+        Optional<Product> productOptional = productRepository.findByIdAndIsActiveTrue(entityId);
+        if (!productOptional.isPresent()) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any product");
+        }
         try {
             if (files.length == 0) {
                 return ResponseBuilder.getFailureResponse(HttpStatus.BAD_REQUEST, "No File/Image attached");
@@ -126,7 +134,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<DocumentDto> getAllDtoByDomain(Long entityId, String entityName) {
         List<Document> documentList = documentRepository.findAllByEntityIdAndEntityNameAndIsActiveTrue(entityId, entityName);
-        if (documentList == null || documentList.size() == 0) {
+        if (documentList != null) {
+//        if (documentList == null || documentList.size() == 0) {
             return this.getResponseDtoList(documentList);
         }
         return new ArrayList<>();

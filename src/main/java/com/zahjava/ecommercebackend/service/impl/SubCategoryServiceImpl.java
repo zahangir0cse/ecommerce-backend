@@ -1,12 +1,14 @@
 package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.CreateProductDto;
+import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.dto.ProductDto;
 import com.zahjava.ecommercebackend.dto.categoryDto.SubCategoryDto;
 import com.zahjava.ecommercebackend.model.Product;
 import com.zahjava.ecommercebackend.model.categoryModel.SubCategory;
 import com.zahjava.ecommercebackend.repository.ProductRepository;
 import com.zahjava.ecommercebackend.repository.SubCategoryRepository;
+import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.service.SubCategoryService;
 import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
@@ -19,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +29,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     private final Logger logger = LoggerFactory.getLogger(SubCategoryServiceImpl.class);
     private final SubCategoryRepository subCategoryRepository;
     private final ModelMapper modelMapper;
-    private final SubSubSubCategoryImple subSubSubCategoryImple;
-    private final ProductRepository productRepository;
+     private final ProductRepository productRepository;
+    private final DocumentService documentService;
 
-    public SubCategoryServiceImpl(SubCategoryRepository subCategoryRepository, ModelMapper modelMapper, SubSubSubCategoryImple subSubSubCategoryImple, ProductRepository productRepository) {
+    public SubCategoryServiceImpl(SubCategoryRepository subCategoryRepository, ModelMapper modelMapper, ProductRepository productRepository, DocumentService documentService) {
         this.subCategoryRepository = subCategoryRepository;
         this.modelMapper = modelMapper;
-        this.subSubSubCategoryImple = subSubSubCategoryImple;
-        this.productRepository = productRepository;
+         this.productRepository = productRepository;
+        this.documentService = documentService;
     }
 
     @Override
@@ -45,16 +46,16 @@ public class SubCategoryServiceImpl implements SubCategoryService {
             return ResponseBuilder.getFailureResponse(HttpStatus.FOUND, "Already have a subCategory With this name");
         }
         try {
-            SubCategory subCategory = modelMapper.map(subCategoryOptional.get(), SubCategory.class);
+            SubCategory subCategory = modelMapper.map(subCategoryDto, SubCategory.class);
             subCategory.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-             subCategory = subCategoryRepository.save(subCategory);
+            subCategory = subCategoryRepository.save(subCategory);
             if (subCategory != null) {
-                if (subCategory.getProductList().isEmpty()) {
+                if (subCategory.getProductList() == null) {
                     return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "SubCategory Creation Successfully", subCategory.getName());
                 }
                 List<CreateProductDto> createProductDtoList = new ArrayList<>();
                 subCategory.getProductList().forEach(product -> {
-                    CreateProductDto createProductDto = new CreateProductDto(product.getId(), Product.class.getSimpleName());
+                    CreateProductDto createProductDto = new CreateProductDto(product.getId(), SubCategory.class.getSimpleName());
                     createProductDtoList.add(createProductDto);
                 });
                 return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "SubCategory Creation Successfully", createProductDtoList);
@@ -75,7 +76,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         try {
             SubCategory subCategory = subCategoryOptional.get();
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-            modelMapper.map(subCategoryDto, SubCategory.class);
+            modelMapper.map(subCategoryDto, subCategory);
             subCategory.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             subCategory = subCategoryRepository.save(subCategory);
             if (subCategory != null) {
@@ -91,15 +92,19 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public Response getAllSubCategory() {
         Optional<List<SubCategory>> optionalSubCategoryList = subCategoryRepository.findAllByIsActiveTrue();
-        if (optionalSubCategoryList.isPresent()) {
+        if (!optionalSubCategoryList.isPresent()) {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any Subcategory");
         }
-        List<SubCategoryDto> subCategoryDtoList = this.getAllSubCategoryDto(optionalSubCategoryList.get());
-        int numberOfRow = subCategoryRepository.countAllByIsActiveTrue();
-        if (!subCategoryDtoList.isEmpty()) {
+        try {
+            List<SubCategoryDto> subCategoryDtoList = this.getAllSubCategoryDto(optionalSubCategoryList.get());
+            int numberOfRow = subCategoryRepository.countAllByIsActiveTrue();
+            if (subCategoryDtoList.isEmpty()) {
+                return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't found any subCategory");
+            }
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "SubCategory Retrieved Successfully", subCategoryDtoList, numberOfRow);
+        } catch (Exception e) {
+            return ResponseBuilder.getSuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", null);
         }
-        return ResponseBuilder.getSuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", null);
     }
 
     @Override
@@ -111,7 +116,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         try {
             SubCategory subCategory = subCategoryOptional.get();
             List<Product> productList = subCategory.getProductList();
-            List<ProductDto> productDtoList = subSubSubCategoryImple.getProductList(productList);
+            List<ProductDto> productDtoList = this.getProductList(productList);
             if (productDtoList.isEmpty()) {
                 return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't get any product with this subCategory");
             }
@@ -133,11 +138,24 @@ public class SubCategoryServiceImpl implements SubCategoryService {
                 /**
                  * For set each product document list if have any product with this subCategory
                  */
-                subCategoryDto.setProductList(subSubSubCategoryImple.getProductList(subCategory.getProductList()));
+                subCategoryDto.setProductList(this.getProductList(subCategory.getProductList()));
             }
             subCategoryDtoList.add(subCategoryDto);
         });
         return subCategoryDtoList;
+    }
+
+
+    public List<ProductDto> getProductList(List<Product> productList) {
+        List<ProductDto> productDtoList = new ArrayList<>();
+        productList.forEach(product -> {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            List<DocumentDto> documentList = documentService.getAllDtoByDomain(productDto.getId(), SubCategory.class.getSimpleName());//for get image for a product by needed param
+            productDto.setDocumentList(documentList);
+            productDtoList.add(productDto);
+        });
+        return productDtoList;
     }
 
 }

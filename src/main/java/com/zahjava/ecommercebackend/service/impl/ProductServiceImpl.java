@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any product");
         }
         try {
-            ProductDto productDto = modelMapper.map(productOptional, ProductDto.class);
+            ProductDto productDto = modelMapper.map(productOptional.get(), ProductDto.class);
             if (productDto != null) {
                 List<DocumentDto> documentList = documentService.getAllDtoByDomain(productId, Product.class.getSimpleName());
                 productDto.setDocumentList(documentList);

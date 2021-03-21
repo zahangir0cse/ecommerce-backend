@@ -88,6 +88,13 @@ public final class UrlConstraint {
         public static final String GET_ALL = "/all";
         public static final String PRODUCTS_BY_CATEGORY_ID = "/productsByCategoryId/{id}";
     }
-
+    public static class CategoryCommonManagement {
+        public static final String ROOT = API + "/categoryCommon";
+        public static final String CREATE = "/create";
+        public static final String UPDATE = "/{id}";
+        public static final String DELETE = "/{id}";
+        public static final String GET = "/{id}";
+        public static final String GET_ALL = "/all";
+     }
 
 }

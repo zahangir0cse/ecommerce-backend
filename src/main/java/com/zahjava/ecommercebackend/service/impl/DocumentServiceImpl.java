@@ -54,10 +54,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Response create(MultipartFile[] files, String entityName, Long entityId) {
-        Optional<Product> productOptional = productRepository.findByIdAndIsActiveTrue(entityId);
-        if (!productOptional.isPresent()) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any product");
-        }
         try {
             if (files.length == 0) {
                 return ResponseBuilder.getFailureResponse(HttpStatus.BAD_REQUEST, "No File/Image attached");

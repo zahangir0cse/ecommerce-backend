@@ -6,8 +6,10 @@ import com.zahjava.ecommercebackend.model.ItemRelation;
 import com.zahjava.ecommercebackend.repository.ItemRelationHelperRepository;
 import com.zahjava.ecommercebackend.repository.ItemsRepository;
 import com.zahjava.ecommercebackend.service.CategoryControlService;
+import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.view.Response;
 import com.zahjava.ecommercebackend.view.ResponseBuilder;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,26 +22,38 @@ public class CategoryControlServiceImpl implements CategoryControlService {
 
     private final ItemRelationHelperRepository itemRelationRepository;
     private final ItemsRepository itemsRepository;
+    private final ModelMapper modelMapper;
+    private final DocumentService documentService;
     private final Logger logger = LoggerFactory.getLogger(CategoryControlServiceImpl.class.getName());
 
-    public CategoryControlServiceImpl(ItemRelationHelperRepository itemRelationRepository, ItemsRepository itemsRepository) {
+    public CategoryControlServiceImpl(ItemRelationHelperRepository itemRelationRepository, ItemsRepository itemsRepository, ModelMapper modelMapper, DocumentService documentService) {
         this.itemRelationRepository = itemRelationRepository;
         this.itemsRepository = itemsRepository;
+        this.modelMapper = modelMapper;
+        this.documentService = documentService;
     }
 
 
     @Override
     public Response createCategoryNew(CategoryCommonDto categoryCommonDto) {
-
-
-        Optional<Item> itemOptional = itemsRepository.findByNameAndIsProductFalse(categoryCommonDto.getName());//here product is false means this is category
+        Optional<Item> itemOptional = itemsRepository.findByNameAndIsProductFalseAndIsActiveTrue(categoryCommonDto.getName());//here product is false means this is category
         if (itemOptional.isPresent()) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_ACCEPTABLE, "Already have a product with this name ");
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_ACCEPTABLE, "Already have a Category with this name ");
         }
+        /**
+         * now check parent if have any parent ID with this request
+         *//*
+        if (categoryCommonDto.getParentId() != null) {
+            itemOptional = itemsRepository.findByIdAndIsProductFalseAndIsActiveTrue(categoryCommonDto.getParentId());
+            if (!itemOptional.isPresent()) {
+                return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "You Don't have Category With this Id");
+            }
+        }*/
+        /**
+         * all ok now create a category
+         */
         try {
-            Item item = new Item();
-            item.setName(categoryCommonDto.getName());
-            item.setDescription(categoryCommonDto.getDescription());
+            Item item = modelMapper.map(categoryCommonDto, Item.class);
             item.setIsProduct(false);
             item = itemsRepository.save(item);
             if (item != null) {
@@ -64,6 +78,41 @@ public class CategoryControlServiceImpl implements CategoryControlService {
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+    }
+
+    @Override
+    public Response getCategory(Long id) {
+        Optional<Item> itemOptional = itemsRepository.findByIdAndIsProductFalseAndIsActiveTrue(id);
+        if (!itemOptional.isPresent()) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any product");
+        }
+        try {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        } catch (Exception e) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+            //logger.error(e.getMessage());
         }
     }
 }

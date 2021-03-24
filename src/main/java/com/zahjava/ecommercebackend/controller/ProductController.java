@@ -2,9 +2,8 @@ package com.zahjava.ecommercebackend.controller;
 
 import com.zahjava.ecommercebackend.annotation.ApiController;
 import com.zahjava.ecommercebackend.annotation.IsAdmin;
-import com.zahjava.ecommercebackend.annotation.IsAdminOrEmployee;
 import com.zahjava.ecommercebackend.annotation.ValidateData;
-import com.zahjava.ecommercebackend.dto.ProductDto;
+import com.zahjava.ecommercebackend.dto.ItemDto;
 import com.zahjava.ecommercebackend.service.ProductService;
 import com.zahjava.ecommercebackend.utils.UrlConstraint;
 import com.zahjava.ecommercebackend.view.Response;
@@ -27,28 +26,23 @@ public class ProductController {
     @IsAdmin
     @ValidateData
     @PostMapping(UrlConstraint.ProductManagement.CREATE)
-    public Response createProduct(@Valid @RequestBody ProductDto productDto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        return productService.createProduct(productDto);
+    public Response createProduct(@Valid @RequestBody ItemDto itemDto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        return productService.createProduct(itemDto);
     }
 
     @IsAdmin
-    @ValidateData
-    @PutMapping(UrlConstraint.ProductManagement.UPDATE)
-    public Response updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        return productService.updateProduct(id, productDto);
+    @GetMapping(UrlConstraint.CategoryManagement.GET)
+    public Response getProduct(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
+
 
     @IsAdmin
     @ValidateData
-    @GetMapping(UrlConstraint.ProductManagement.GET)
-    public Response getProduct(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
-        return productService.getProduct(id);
+    @GetMapping(UrlConstraint.ProductManagement.GET_ALL)
+    public Response getALlProducts() {
+        return productService.getAllProducts();
     }
 
-    @IsAdmin
-    @ValidateData
-    @DeleteMapping(UrlConstraint.ProductManagement.DELETE)
-    public Response deleteProduct(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
-        return productService.deleteProduct(id);
-    }
 }
+

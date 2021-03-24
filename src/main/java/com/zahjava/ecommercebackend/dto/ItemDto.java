@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class ItemDto {
+    private Long id;
     @NotEmpty(message = "Name Mandatory")
     private String name;
     private Long quantity;

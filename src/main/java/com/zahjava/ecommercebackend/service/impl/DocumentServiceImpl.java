@@ -2,9 +2,7 @@ package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.model.Document;
-import com.zahjava.ecommercebackend.model.Product;
 import com.zahjava.ecommercebackend.repository.DocumentRepository;
-import com.zahjava.ecommercebackend.repository.ProductRepository;
 import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.utils.DateUtils;
 import com.zahjava.ecommercebackend.view.Response;

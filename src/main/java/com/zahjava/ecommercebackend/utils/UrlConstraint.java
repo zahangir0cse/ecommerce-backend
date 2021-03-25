@@ -48,37 +48,6 @@ public final class UrlConstraint {
         public static final String GET_ALL_BY_ENTITY = "/allByEntity";
     }
 
-    public static class SubSubSubCategoryManagement {
-        public static final String ROOT = API + "/subSubSubCategory";
-        public static final String CREATE = "/create";
-        public static final String UPDATE = "/{id}";
-        public static final String DELETE = "/{id}";
-        public static final String GET = "/{id}";
-        public static final String GET_ALL = "/all";
-        public static final String PRODUCTS_BY_SUBSUBSUBCATEGOY_ID = "/productsBySubSubSubCategoryId/{id}";
-    }
-
-
-    public static class SubSubCategoryManagement {
-        public static final String ROOT = API + "/subSubCategory";
-        public static final String CREATE = "/create";
-        public static final String UPDATE = "/{id}";
-        public static final String DELETE = "/{id}";
-        public static final String GET = "/{id}";
-        public static final String GET_ALL = "/all";
-        public static final String PRODUCTS_BY_SUBSUBCATEGOY_ID = "/productsBySubSubCategoryId/{id}";
-    }
-
-    public static class SubCategoryManagement {
-        public static final String ROOT = API + "/subCategory";
-        public static final String CREATE = "/create";
-        public static final String UPDATE = "/{id}";
-        public static final String DELETE = "/{id}";
-        public static final String GET = "/{id}";
-        public static final String GET_ALL = "/all";
-        public static final String PRODUCTS_BY_SUBCATEGOY_ID = "/productsBySubCategoryId/{id}";
-    }
-
     public static class CategoryManagement {
         public static final String ROOT = API + "/category";
         public static final String CREATE = "/create";
@@ -88,13 +57,5 @@ public final class UrlConstraint {
         public static final String GET_ALL = "/all";
         public static final String PRODUCTS_BY_CATEGORY_ID = "/productsByCategoryId/{id}";
     }
-    public static class CategoryCommonManagement {
-        public static final String ROOT = API + "/categoryCommon";
-        public static final String CREATE = "/create";
-        public static final String UPDATE = "/{id}";
-        public static final String DELETE = "/{id}";
-        public static final String GET = "/{id}";
-        public static final String GET_ALL = "/all";
-     }
 
 }

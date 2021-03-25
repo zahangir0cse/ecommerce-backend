@@ -5,4 +5,6 @@ import com.zahjava.ecommercebackend.view.Response;
 
 public interface CategoryControlService {
     Response createCategoryNew(CategoryCommonDto categoryCommonDto);
+    Response getCategory(Long id);
+
 }

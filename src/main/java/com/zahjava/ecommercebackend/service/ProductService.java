@@ -1,14 +1,12 @@
 package com.zahjava.ecommercebackend.service;
 
-import com.zahjava.ecommercebackend.dto.ProductDto;
+import com.zahjava.ecommercebackend.dto.ItemDto;
 import com.zahjava.ecommercebackend.view.Response;
 
 public interface ProductService {
-    Response createProduct(ProductDto productDto);
+    Response createProduct(ItemDto itemDto);
 
-    Response updateProduct(Long productId, ProductDto productDto);
+    Response getAllProducts();
 
-    Response getProduct(Long productId);
-
-    Response deleteProduct(Long productId);
+    Response getProductById(Long id);
 }

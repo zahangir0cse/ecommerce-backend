@@ -2,9 +2,7 @@ package com.zahjava.ecommercebackend.service.impl;
 
 import com.zahjava.ecommercebackend.dto.DocumentDto;
 import com.zahjava.ecommercebackend.model.Document;
-import com.zahjava.ecommercebackend.model.Product;
 import com.zahjava.ecommercebackend.repository.DocumentRepository;
-import com.zahjava.ecommercebackend.repository.ProductRepository;
 import com.zahjava.ecommercebackend.service.DocumentService;
 import com.zahjava.ecommercebackend.utils.DateUtils;
 import com.zahjava.ecommercebackend.view.Response;
@@ -37,7 +35,6 @@ import java.util.*;
 public class DocumentServiceImpl implements DocumentService {
     private final ModelMapper modelMapper;
     private final DocumentRepository documentRepository;
-    private final ProductRepository productRepository;
     private final String root = "Document";
     @Value("${server.file.location}")
     private String fileRoot;
@@ -46,10 +43,9 @@ public class DocumentServiceImpl implements DocumentService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public DocumentServiceImpl(ModelMapper modelMapper, DocumentRepository documentRepository, ProductRepository productRepository) {
+    public DocumentServiceImpl(ModelMapper modelMapper, DocumentRepository documentRepository) {
         this.modelMapper = modelMapper;
         this.documentRepository = documentRepository;
-        this.productRepository = productRepository;
     }
 
     @Override

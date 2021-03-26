@@ -11,6 +11,6 @@ import java.util.List;
 public class Order extends BaseModel {
     private Double totalPrice;
     private Integer orderType;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderDetails> orderDetailsList;
 }

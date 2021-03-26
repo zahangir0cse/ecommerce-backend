@@ -8,5 +8,5 @@ import java.util.List;
 public class OrderDto extends BaseModelDto {
     private Double totalPrice;
     private Integer orderType;
-    private List<OrderDetailsDto> orderDetailsDtoList;
+    private List<OrderDetailsDto> orderDetailsList;
 }

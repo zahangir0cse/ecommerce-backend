@@ -99,7 +99,7 @@ public class CategoryControlServiceImpl implements CategoryControlService {
             /**
              * didn't have any relation so this is root category without parent
              */
-            return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND, "Items Retrieved Successfully, and this is root items without paarent", itemOptional.get());
+            return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND, "Items Retrieved Successfully, and this is root items without parent", itemOptional.get());
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");

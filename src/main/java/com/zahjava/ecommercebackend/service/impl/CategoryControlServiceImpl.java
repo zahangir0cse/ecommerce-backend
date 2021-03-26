@@ -114,7 +114,7 @@ public class CategoryControlServiceImpl implements CategoryControlService {
         }
         try {
             /**
-             * now get all root category by check relation  with item relation table
+             * now get all root category by check relation  with item relation table via returning function
              */
             return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND, "Root Category Retrieved Successfully", getAllRootItems(optionalItemList.get()));
         } catch (Exception e) {

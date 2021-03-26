@@ -29,6 +29,17 @@ public class CategoryController {
         return categoryControlService.createCategoryNew(categoryCommonDto);
     }
 
+    @IsAdmin
+    @GetMapping(UrlConstraint.CategoryManagement.GET)
+    public Response getCategoryById(@PathVariable Long id) {
+        return categoryControlService.getCategory(id);
+    }
+
+    @IsAdmin
+    @GetMapping(UrlConstraint.CategoryManagement.GET_ALL_ROOT_CATEGORY)
+    public Response getAllRootCategory() {
+        return categoryControlService.getAllRootCategory();
+    }
 
 
 }

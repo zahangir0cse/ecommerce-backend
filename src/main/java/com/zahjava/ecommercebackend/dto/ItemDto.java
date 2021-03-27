@@ -18,4 +18,5 @@ public class ItemDto {
     private String description;
     private String discountNote;
     private List<DocumentDto> documentList;
+//    private List<ItemDto> itemDtoList;
 }

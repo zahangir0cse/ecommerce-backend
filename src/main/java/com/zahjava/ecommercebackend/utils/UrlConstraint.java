@@ -14,7 +14,7 @@ public final class UrlConstraint {
     }
 
     public static class CompanyManagement {
-        public static final String ROOT = API + "/company";
+        public static final String ROOT = API + "/companies";
         public static final String CREATE = "/create";
         public static final String UPDATE = "/{id}";
         public static final String GET = "/{id}";
@@ -49,13 +49,19 @@ public final class UrlConstraint {
     }
 
     public static class CategoryManagement {
-        public static final String ROOT = API + "/category";
+        public static final String ROOT = API + "/categories";
         public static final String CREATE = "/create";
         public static final String UPDATE = "/{id}";
         public static final String DELETE = "/{id}";
         public static final String GET = "/{id}";
+        public static final String GET_ALL_ROOT_CATEGORY = "/rootCategory/all";
         public static final String GET_ALL = "/all";
-        public static final String PRODUCTS_BY_CATEGORY_ID = "/productsByCategoryId/{id}";
     }
 
+    public static class OrderManagement {
+        public static final String ROOT = VERSION + API + "/orders";
+        public static final String DELETE = "/{orderId}";
+        public static final String GET = "/{orderId}";
+        public static final String PUT = "/{orderId}";
+    }
 }

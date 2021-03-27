@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class OrderDetailsDto extends BaseModelDto {
-    private OrderDto orderDto;
-    private ItemDto itemDto;
+    private ItemDto item;
     private Double quantity;
     private Double unitSalePrice;
 }

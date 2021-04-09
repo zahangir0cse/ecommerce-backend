@@ -2,7 +2,7 @@ package com.zahjava.ecommercebackend.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -18,5 +18,16 @@ public class ItemDto {
     private String description;
     private String discountNote;
     private List<DocumentDto> documentList;
-//    private List<ItemDto> itemDtoList;
+    @Min(value = 1,message = "P should Be 1 or more")
+    private Long purchaseQuantity;//from view new updated quantity
+    @NotNull
+    @Size(min = 2, max = 30)
+    @NotEmpty(message = "PurchaseCompany Mandatory")
+    private String purchaseCompany;//purchase from company
+    @NotEmpty(message = "Company Address Mandatory")
+    private String address;
+    @DecimalMin(value = "1", message = "Purchase price shouldn't be less then 1")
+    private Double purchasePrice;//form view
+    @DecimalMin(value = "1", message = "SalePrice price shouldn't be less then 1")
+    private Double salePrice;//form view
 }

@@ -45,7 +45,7 @@ public class DBinit {
             user.setFirstName("Golam");
             user.setLastname("Kibria");
             user.setEmail("golamkibria.java@gmail.com");
-            user.setUsername("01531921892");
+            user.setUsername(username);
             user.setMobileNo("01531921892");
             user.setPassword(passwordEncoder.encode(password));
         }

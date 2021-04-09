@@ -112,6 +112,8 @@ public class ProductServiceImpl implements ProductService {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "didn't find any product");
         }
         try {
+
+
             return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND, "Product Retrieved Successfully", getItemList(optionalItemList.get()));
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -129,6 +131,8 @@ public class ProductServiceImpl implements ProductService {
             Item item = itemOptional.get();
             List<DocumentDto> documentDtoList = documentService.getAllDtoByDomain(item.getId(), Item.class.getSimpleName());
             ItemDto itemDto = modelMapper.map(item, ItemDto.class);
+            itemDto.setSalePrice(itemSalePriceHistoryRepository
+                    .findByProductIdAndIsActivePriceTrueAndIsActiveTrue(itemDto.getId()).get().getSalePrice());
             itemDto.setDocumentList(documentDtoList);
             return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND, "Product Retrieved Successfully", itemDto);
         } catch (Exception e) {
@@ -144,6 +148,11 @@ public class ProductServiceImpl implements ProductService {
             ItemDto itemDto = modelMapper.map(item, ItemDto.class);
             List<DocumentDto> documentList = documentService.getAllDtoByDomain(itemDto.getId(), Item.class.getSimpleName());
             itemDto.setDocumentList(documentList);
+            /**
+             * now set current item sale price
+             */
+            itemDto.setSalePrice(itemSalePriceHistoryRepository
+                    .findByProductIdAndIsActivePriceTrueAndIsActiveTrue(itemDto.getId()).get().getSalePrice());
             itemDtoList.add(itemDto);
         });
         return itemDtoList;

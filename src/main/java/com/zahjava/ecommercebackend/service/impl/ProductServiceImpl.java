@@ -170,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
             return false;
         }
     }
-    
+
     private Boolean setItemSalePriceHistory(ItemDto itemDto, Item currentItem, boolean isNewProduct) {
         Optional<ItemSalePriceHistory> itemSalePriceHistoryOptional = itemSalePriceHistoryRepository.findByProductIdAndIsActivePriceTrueAndIsActiveTrue(currentItem.getId());
 

@@ -18,7 +18,7 @@ public class ItemDto {
     private String description;
     private String discountNote;
     private List<DocumentDto> documentList;
-    @Min(value = 1,message = "P should Be 1 or more")
+    @Min(value = 1, message = "PurchaseQuantity should Be 1 or more")
     private Long purchaseQuantity;//from view new updated quantity
     @NotNull
     @Size(min = 2, max = 30)
